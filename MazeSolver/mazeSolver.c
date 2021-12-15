@@ -168,7 +168,7 @@ int main ()
 	else if (proximidad_lateral < 100) {
 
 		printf("Nada a la derecha\n");
-		if (cont > 40 & (rand() & 1)) {
+		if (cont > 40 && (rand() & 1)) {
 
 			printf("\n\nNADA A LA DERECHA!!!\n\n");
 			gira_derecha_90();
