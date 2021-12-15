@@ -50,7 +50,8 @@ void gira_derecha() {
 
 void gira_derecha_atras() {
 
-	softPwmWrite(RUEDA_DER, 0);
+	softPwmWrite(RUEDA_DER, RUEDA_DER_ATRAS);
+	softPwmWrite(RUEDA_IZQ, RUEDA_IZQ_ADELANTE);
 }
 
 void mueve_atras() {
@@ -67,8 +68,8 @@ void parar_ruedas() {
 
 void gira_derecha_90() {
 
-	gira_derecha();
-	delay(1000);
+	gira_derecha_atras();
+	delay(1100);
 }
 
 void gira_izquierda_90() {
@@ -101,9 +102,9 @@ int main ()
   softPwmCreate(RUEDA_DER, 0, RANGE);
   softPwmCreate(RUEDA_IZQ, 0, RANGE);
   
-  //parar_ruedas();
-  softPwmWrite(RUEDA_IZQ, 20);
-  softPwmWrite (RUEDA_DER, 6);
+  parar_ruedas();
+  //softPwmWrite(RUEDA_IZQ, 20);
+  //softPwmWrite (RUEDA_DER, 6);
   printf("Hola");
 
   int last = 0;
@@ -124,6 +125,10 @@ int main ()
 
 	printf("proximidad delantera: %d \n", proximidad_delantera);
 	printf("proximidad lateral: %d \n", proximidad_lateral);
+
+	gira_derecha_90();
+	//gira_derecha();
+	//gira_derecha_atras();
 
 	mueve_adelante();
 	/*diff = abs(proximidad_delantera - last);
@@ -171,9 +176,9 @@ int main ()
 		printf("tercer if \n");
 		mueve_adelante();
 		contador = 0;
-	}
+	}*/
 
-	last = proximidad_delantera;*/
+	last = proximidad_delantera;
 	delay(80);
   }
 }
