@@ -69,15 +69,13 @@ void parar_ruedas() {
 void gira_derecha_90() {
 
 	gira_derecha_atras();
-	delay(1100);
+	delay(500);
 }
 
 void gira_izquierda_90() {
 
-	gira_izquierda();
-	delay(1000);
-	//gira_izquierda_atras();
-	//delay(50);
+	gira_izquierda_atras();
+	delay(500);
 }
 
 int main ()
@@ -109,6 +107,7 @@ int main ()
 
   int last = 0;
   int diff = 0;
+  int cont = 0;
 
   for (;;) {
 
@@ -126,59 +125,65 @@ int main ()
 	printf("proximidad delantera: %d \n", proximidad_delantera);
 	printf("proximidad lateral: %d \n", proximidad_lateral);
 
-	gira_derecha_90();
+	//gira_derecha_90();
 	//gira_derecha();
 	//gira_derecha_atras();
+	
+	if (proximidad_delantera > 220) {
 
-	mueve_adelante();
-	/*diff = abs(proximidad_delantera - last);
+	        printf("Obstaculo Adelante\n");
+	
+	        parar_ruedas();
+	
+	        proximidad_lateral = analogRead(101);
+	
+	        if (proximidad_lateral > 600) {
+	
+	            mueve_atras();
+	            delay(400);
+	            gira_izquierda_atras();
+	            delay(100);
+	        }
+	        else if (proximidad_lateral > 300) {
+	
+	            gira_izquierda_90();
+	        }
+	        else {
+	
+	            gira_derecha_90();
+        	}
 
-	if (diff < 30 && proximidad_delantera > 400) {
+		cont = 0;
+    	}
+	else if (proximidad_lateral > 600) {
+		
+		printf("Muy cerca Lateral\n");
+            mueve_atras();
+            delay(400);
+            gira_izquierda_atras();
+	    delay(100);
 
-		printf("primer if \n");
-
-		contador++;
-		if (contador > 8) {
-
-			mueve_atras();
-			delay(200);
-		}
+		cont = 0;
 	}
-	else if (proximidad_delantera > 120) {
+	else if (proximidad_lateral < 100) {
 
-		printf("segundo if \n");
+		printf("Nada a la derecha\n");
+		if (cont > 40 & (rand() & 1)) {
 
-		parar_ruedas();
-
-		if (proximidad_delantera > 800) {
-
-			mueve_atras();
-			delay(1200);
-		}
-
-		proximidad_lateral = analogRead(101);
-
-		printf("proximidad lateral: %d \n", proximidad_lateral);
-
-		if (proximidad_lateral > 250) {
-
-			gira_izquierda_90();
-		}
-		else {
-
+			printf("\n\nNADA A LA DERECHA!!!\n\n");
 			gira_derecha_90();
+			cont = 0;
 		}
 
-		contador = 0;
+		cont++;
 	}
 	else {
-		
-		printf("tercer if \n");
-		mueve_adelante();
-		contador = 0;
-	}*/
 
-	last = proximidad_delantera;
+		printf("Adelante\n");
+		mueve_adelante();
+
+		cont = 0;
+	}
 	delay(80);
   }
 }
