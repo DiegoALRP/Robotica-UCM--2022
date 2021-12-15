@@ -24,6 +24,24 @@
 #define DERECHA 1
 #define IZQUIERDA 2
 
+void inicializaValores() {
+
+    wiringPiSetup();
+
+    mcp3004Setup(100, 0);
+
+
+    pinMode(INPUT_PIN_1, INPUT);
+    pinMode(INPUT_PIN_2, INPUT);
+    pinMode(RUEDA_DER, PWM_OUTPUT);
+    pinMode(RUEDA_IZQ, PWM_OUTPUT);
+
+    softPwmCreate(RUEDA_DER, 0, RANGE);
+    softPwmCreate(RUEDA_IZQ, 0, RANGE);
+
+    parar_ruedas();
+}
+
 void mueve_adelante() {
 
 	softPwmWrite(RUEDA_DER, RUEDA_DER_ADELANTE);
@@ -69,56 +87,52 @@ void parar_ruedas() {
 void gira_derecha_90() {
 
 	gira_derecha_atras();
-	delay(500);
+	delay(200);
 }
 
 void gira_izquierda_90() {
 
 	gira_izquierda_atras();
-	delay(500);
+	delay(200);
 }
 
 int main ()
 {
-  int result_1;
-  int result_2;
-  int proximidad_1;
-  int proximidad_2;
-  int maniobra = 0; //0 es hacia delante, 1 es hacia la derecha, 2 es hacia la izquierda
-  int contador = 0;
+    int result_1;
+    int result_2;
+    int proximidad_1;
+    int proximidad_2;
 
-  wiringPiSetup();
-  
-  mcp3004Setup(100, 0);
-  
+    printf("Hola");
 
-  pinMode(INPUT_PIN_1, INPUT);
-  pinMode(INPUT_PIN_2, INPUT);
-  pinMode(RUEDA_DER, PWM_OUTPUT);
-  pinMode(RUEDA_IZQ, PWM_OUTPUT);
+    int diff = 0;
 
-  softPwmCreate(RUEDA_DER, 0, RANGE);
-  softPwmCreate(RUEDA_IZQ, 0, RANGE);
-  
-  parar_ruedas();
-  printf("Hola");
+    for (;;) {
 
-  int last = 0;
-  int diff = 0;
-  int cont = 0;
+        //result_1 = digitalRead(INPUT_PIN_1);
+        proximidad_1 = analogRead(100);
+        proximidad_2 = analogRead(101);
 
-  for (;;) {
+        printf("\nproximidad 1: %d \n", proximidad_1);
+        printf("proximidad 2: %d \n", proximidad_2);
 
-	//result_1 = digitalRead(INPUT_PIN_1);
-	proximidad_1 = analogRead(100);
-	proximidad_2 = analogRead(101);
+        diff = proximidad_1 - proximidad_2;
 
-	printf("\nproximidad 1: %d \n", proximidad_1);
-	printf("proximidad 2: %d \n", proximidad_2);
+        if (diff < -50) {
 
-	
-	delay(100);
-  }
+            gira_izquierda_90();
+        }
+        else if (diff > 50) {
+
+            gira_derecha_90();
+        }
+        else {
+
+            mueve_adelante();
+        }
+
+        delay(100);
+    }
 }
 
 
