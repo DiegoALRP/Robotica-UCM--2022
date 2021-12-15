@@ -176,62 +176,6 @@ int main ()
 	last = proximidad_delantera;*/
 	delay(80);
   }
-
-  /*
-  for(;;){
-
-	result_1 = digitalRead (INPUT_PIN_1);
-	result_2 = digitalRead (INPUT_PIN_2);	
-	proximidad_delantero = analogRead(100);
- 	proximidad_lateral = analogRead(101); 
-
-	printf("proximidad delantero: %i \n", proximidad_delantero);
-
-	if (proximidad_delantero > 500){
-
-		int derecha = 0; //Girar a la derecha
-		proximidad_lateral = analogRead(101);
-
-		if (proximidad_lateral > 400){
-			derecha = 0;
-		}
-		else {
-			derecha = 1;
-		}
-
-		while(proximidad_delantero > 100){
-			
-			printf("Hola proximidad: %i \n", proximidad_delantero);
-			
-			if (derecha == 1){
-				printf("Derecha \n");
-				softPwmWrite(4, 0);
-				softPwmWrite(0, 6);
-				delay(100);
-				softPwmWrite(4, 6);
-				softPwmWrite(0, 20);
-				delay(30);
-			}
-			else {
-
-				softPwmWrite(4, 0);
-				softPwmWrite(0, 6);
-				delay(100);
-                                softPwmWrite(4, 6);
-                                softPwmWrite(0, 20);
-				delay(30);
-			}
-
-			proximidad_delantero = analogRead(100);
-			proximidad_lateral = analogRead(101);
-		}
-
-	}
-
-	softPwmWrite(4, 20);
-	softPwmWrite(0, 6);
-	delay(20);
-  }*/
 }
 
 
